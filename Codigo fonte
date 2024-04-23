@@ -1,0 +1,52 @@
+CREATE DATABASE Empresa;
+
+USE Empresa;
+
+CREATE TABLE Fornecedor (
+    Codigo INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    CNPJ VARCHAR(18),
+    Endereco VARCHAR(50)
+);
+
+CREATE TABLE Produto (
+    Codigo INT PRIMARY KEY,
+    Nome VARCHAR(55),
+    Descricao VARCHAR(180)
+);
+
+CREATE TABLE Cliente (
+    Codigo INT PRIMARY KEY,
+    Nome VARCHAR(55),
+    Endereco VARCHAR(55)
+);
+
+CREATE TABLE Venda (
+    NumNFiscal INT PRIMARY KEY,
+    Data DATE,
+    ValorTotal DECIMAL(10,2),
+    CodCliente INT FOREIGN KEY REFERENCES Cliente(Codigo),
+	CodLoja INT FOREIGN KEY
+);
+
+CREATE TABLE Loja (
+	Codigo INT PRIMARY KEY,
+	Nome VARCHAR(55),
+	CNPJ VARCHAR(18)
+);
+
+ALTER TABLE Venda 
+ADD CONSTRAINT FK_Loja 
+FOREIGN KEY (CodLoja) REFERENCES Loja(Codigo);
+
+CREATE TABLE FornecedorProduto (
+	CodFornecedor INT FOREIGN KEY REFERENCES Fornecedor(Codigo),
+	CodProduto INT FOREIGN KEY REFERENCES Produto(Codigo)
+);
+
+CREATE TABLE ProdutoVenda (
+	CodProduto INT FOREIGN KEY REFERENCES Produto(Codigo),
+	NumNFiscal INT FOREIGN KEY REFERENCES Venda(NumNFiscal), 
+	Prazo DATE, 
+	Quantidade DECIMAL
+);
